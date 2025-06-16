@@ -9,6 +9,7 @@ const uri = process.env.DATABASE_URI
 export const connectDB = async () => {
   try {
     await mongoose.connect(uri as string);
+    console.log("db connected")
   } catch (e) {
     console.log(e)
   }

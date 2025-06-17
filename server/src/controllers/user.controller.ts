@@ -12,11 +12,16 @@ const userSchema = z.object({
   password: z.string().min(8),
 });
 
+const loginSchema = z.object({
+  username: z.string(),
+  password: z.string().min(8)
+})
+
 export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.find();
     res.json({
-      users: users,
+      users: users
     });
   } catch (error) {
     res.status(404).json({
@@ -49,6 +54,7 @@ export const signUp = async (req: Request, res: Response): Promise<any> => {
 
     const createe = await User.create(body);
 
+
    
     const jwt1 = process.env.JWT_SECRET
 
@@ -63,15 +69,60 @@ export const signUp = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-// export const SignIn =  (req: Request, res:Response) => {
-//     try{
+export const SignIn = async (req: Request, res:Response) => {
+    try{
 
-//         const unique  = req.body.username || req.body.email
-//         const password = req.body.password
+      const {success} = loginSchema.safeParse(req.body)
 
-//     }catch(e) {
-//         res.status(404).json({
-//             message: e
-//         })
-//     }
-// }
+      if(!success){
+        res.status(301).json({
+          message: "incorrect inputs"
+        })
+      }
+
+
+      const user: any= await User.findOne({
+        username: req.body.username,
+        password: req.body.password
+      })
+
+      if(!user._id){
+        res.status(301).json({
+          message: "user doesnt exist"
+        })
+      }
+
+      const token = jwt.sign({
+        userId: user._id
+      }, process.env.JWT_SECRET as string)
+
+      res.json({
+        token: token
+      })
+
+    }catch(e) {
+        res.status(404).json({
+            message: e
+        })
+    }
+}
+
+export const update = async (req: any, res:Response) =>{
+  const {success} = userSchema.safeParse(req.body)
+
+  if(!success) {
+    res.status(301).json({
+      message: "incorrect inputs"
+    })
+  }
+
+  const user = await User.findOne({
+    _id: req.userId
+    })
+
+  if(user){
+    await User.updateOne({
+      req.userId,req.body
+    })
+  }
+}

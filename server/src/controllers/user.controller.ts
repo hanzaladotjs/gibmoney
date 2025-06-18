@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { User } from "../models/user.model";
 import z from "zod";
-import dotenv from "dotenv"
-import jwt from "jsonwebtoken" 
+import dotenv from "dotenv";
+import jwt from "jsonwebtoken";
+import { Account } from "../models/account.model";
 
-dotenv.config() 
+dotenv.config();
 
 const userSchema = z.object({
   username: z.string(),
@@ -14,24 +15,23 @@ const userSchema = z.object({
 
 const loginSchema = z.object({
   username: z.string(),
-  password: z.string().min(8)
-})
+  password: z.string().min(8),
+});
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.find();
     res.json({
-      users: users
+      users: users,
     });
   } catch (error) {
     res.status(404).json({
-        error: error
-    })
+      error: error,
+    });
   }
 };
 
 export const signUp = async (req: Request, res: Response): Promise<any> => {
-
   try {
     const body = req.body;
     const { success } = userSchema.safeParse(body);
@@ -46,83 +46,84 @@ export const signUp = async (req: Request, res: Response): Promise<any> => {
       username: body.username,
     });
 
-    if(user) {
-        return res.json({
-            message: "invalid"
-        })
+    if (user) {
+      return res.json({
+        message: "invalid",
+      });
     }
 
     const createe = await User.create(body);
 
+    await Account.create({
+      userId: createe._id,
+      balance: (1+ (Math.random()*1000))
+    })
 
-   
-    const jwt1 = process.env.JWT_SECRET
+    const jwt1 = process.env.JWT_SECRET;
 
-    const token = jwt.sign({userId: createe._id}, jwt1 as string )
+    const token = jwt.sign({ userId: createe._id }, jwt1 as string);
 
     res.json({
-        message: "user created",
-        token: token
-    })
+      message: "user created",
+      token: token,
+    });
   } catch (err) {
     res.status(404);
   }
 };
 
-export const SignIn = async (req: Request, res:Response) => {
-    try{
+export const SignIn = async (req: Request, res: Response) => {
+  try {
+    const { success } = loginSchema.safeParse(req.body);
 
-      const {success} = loginSchema.safeParse(req.body)
-
-      if(!success){
-        res.status(301).json({
-          message: "incorrect inputs"
-        })
-      }
-
-
-      const user: any= await User.findOne({
-        username: req.body.username,
-        password: req.body.password
-      })
-
-      if(!user._id){
-        res.status(301).json({
-          message: "user doesnt exist"
-        })
-      }
-
-      const token = jwt.sign({
-        userId: user._id
-      }, process.env.JWT_SECRET as string)
-
-      res.json({
-        token: token
-      })
-
-    }catch(e) {
-        res.status(404).json({
-            message: e
-        })
+    if (!success) {
+      res.status(301).json({
+        message: "incorrect inputs",
+      });
     }
-}
 
-export const update = async (req: any, res:Response) =>{
-  const {success} = userSchema.safeParse(req.body)
+    const user: any = await User.findOne({
+      username: req.body.username,
+      password: req.body.password,
+    });
 
-  if(!success) {
+    if (!user._id) {
+      res.status(301).json({
+        message: "user doesnt exist",
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        userId: user._id,
+      },
+      process.env.JWT_SECRET as string
+    );
+
+    res.json({
+      token: token,
+    });
+  } catch (e) {
+    res.status(404).json({
+      message: e,
+    });
+  }
+};
+
+export const update = async (req: any, res: Response) => {
+  const { success } = userSchema.safeParse(req.body);
+
+  if (!success) {
     res.status(301).json({
-      message: "incorrect inputs"
-    })
+      message: "incorrect inputs",
+    });
   }
 
   const user = await User.findOne({
-    _id: req.userId
-    })
+    username: req.body.username,
+  });
 
-  if(user){
-    await User.updateOne({
-      req.userId,req.body
-    })
+  if (user) {
+    await User.updateOne({ _id: req.userId }, req.body);
   }
-}
+};

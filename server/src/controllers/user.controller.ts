@@ -26,7 +26,7 @@ export const getUsers = async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(404).json({
-      error: error,
+      message: "here at get users"
     });
   }
 };
@@ -42,6 +42,9 @@ export const signUp = async (req: Request, res: Response): Promise<any> => {
       });
     }
 
+    console.log("Router loaded");
+
+
     const user = await User.findOne({
       username: body.username,
     });
@@ -56,8 +59,8 @@ export const signUp = async (req: Request, res: Response): Promise<any> => {
 
     await Account.create({
       userId: createe._id,
-      balance: (1+ (Math.random()*1000))
-    })
+      balance: 1 + Math.random() * 1000,
+    });
 
     const jwt1 = process.env.JWT_SECRET;
 
@@ -68,7 +71,9 @@ export const signUp = async (req: Request, res: Response): Promise<any> => {
       token: token,
     });
   } catch (err) {
-    res.status(404);
+    res.status(404).json({
+      message: "here at signup"
+    })
   }
 };
 
@@ -105,7 +110,7 @@ export const SignIn = async (req: Request, res: Response) => {
     });
   } catch (e) {
     res.status(404).json({
-      message: e,
+      message: "here at signin"
     });
   }
 };

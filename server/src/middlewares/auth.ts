@@ -1,15 +1,14 @@
 import { NextFunction, Request, Response } from "express";
-import jwt from "jsonwebtoken";
+import jwt, { JwtHeader, JwtPayload } from "jsonwebtoken";
 
 import dotenv from "dotenv";
 dotenv.config();
 
-const authMiddleware:any= async (
-  req: Request,
+const authMiddleware: any = async (
+  req: any,
   res: Response,
   next: NextFunction
 ) => {
-
   const authHeaders = req.headers.authorization;
 
   if (!authHeaders) {
@@ -19,13 +18,11 @@ const authMiddleware:any= async (
   }
 
   const yourKey = authHeaders.split(" ")[1];
-  const jwt_secret = process.env.JWT_SECRET;
 
-  const authJWT = jwt.verify(yourKey, jwt_secret as string);
 
-  res.json({
-    userId: authJWT._id
-  })
+  const authJWT: any = jwt.verify(yourKey, process.env.JWT_SECRET as string);
+
+  req.userId = authJWT.userId;
 
   next();
 };

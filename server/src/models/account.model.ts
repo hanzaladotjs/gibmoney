@@ -9,7 +9,7 @@ export interface AccountSchema {
 const Accounts = new mongoose.Schema<AccountSchema>({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: User,
+    ref: "User",
   },
   balance: {
     type: Number,

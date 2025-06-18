@@ -1,5 +1,5 @@
 import { Account } from "../models/account.model";
-
+import mongoose from "mongoose";
 
 interface transaction {
     amount: Number,
@@ -16,7 +16,11 @@ export const balance: any = async (req: any, res: any) => {
   });
 };
 
-export const send: any = async (req: any, res: any) => {
+export const Send: any = async (req: any, res: any) => {
+
+
+   console.log("hi from send ")
+
     const {amount, address}: transaction = req.body
 
     const account:any = await Account.findOne({
@@ -32,10 +36,26 @@ export const send: any = async (req: any, res: any) => {
     const trans:any= await Account.findOne({
         userId: address
     })
+    
+    const transaction = await mongoose.startSession()
+
+    transaction.startTransaction()
 
     await Account.updateOne({userId: trans.userId},{
      $inc: {balance: amount}
     })
 
+    await Account.updateOne({
+        userId: req.userId
+    }, {
+        $inc :{balance: -amount}
+    })
+
+    await transaction.commitTransaction()
+    transaction.endSession()
+
+    res.status(200).json({
+        message:"success"
+    })
 
 };

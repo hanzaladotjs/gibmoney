@@ -12,16 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const db_1 = require("./utils/db");
-const index_1 = __importDefault(require("./routes/index"));
-const app = (0, express_1.default)();
-app.use(express_1.default.json());
-app.use("/api/v1", index_1.default);
-const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
-    yield (0, db_1.connectDB)();
-    app.listen(process.env.PORT || 3000, () => {
-        console.log(`listening on ${process.env.PORT}`);
-    });
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const authHeaders = req.headers.authorization;
+    if (!authHeaders) {
+        return res.json({
+            message: "you can do better",
+        });
+    }
+    const yourKey = authHeaders.split(" ")[1];
+    const authJWT = jsonwebtoken_1.default.verify(yourKey, process.env.JWT_SECRET);
+    req.userId = authJWT.userId;
+    next();
 });
-startServer();
+exports.default = authMiddleware;

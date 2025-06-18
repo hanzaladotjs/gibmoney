@@ -20,6 +20,7 @@ const uri = process.env.DATABASE_URI;
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield mongoose_1.default.connect(uri);
+        console.log("db connected");
     }
     catch (e) {
         console.log(e);

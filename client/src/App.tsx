@@ -11,7 +11,7 @@ function App() {
   return (
     <BrowserRouter>
    
-      <Navbar></Navbar>
+      <Navbar/>
       <div className='flex justify-center items-center md:min-h-180  min-h-150'>
         <Routes>
          

@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
-    <nav className=" sticky flex md:justify-around  justify-between md:mx-0 mx-3 text-gray-400 font-mono border-b py-4 border-gray-800">
+    <nav className="sticky flex md:justify-around  justify-between md:mx-0 mx-3 text-gray-400 font-mono border-b py-4 border-gray-800">
       <div className="flex space-x-3 items-center">
         <svg
           width="20px"

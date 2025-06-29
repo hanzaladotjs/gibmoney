@@ -19,8 +19,11 @@ const authMiddleware: any = async (
 
   const yourKey = authHeaders.split(" ")[1];
 
+  if(!process.env.JWT_SECRET){
+    throw new Error("Hi")
+  }
 
-  const authJWT: any = jwt.verify(yourKey, process.env.JWT_SECRET as string);
+  const authJWT: any = jwt.verify(yourKey, process.env.JWT_SECRET);
 
   req.userId = authJWT.userId;
 

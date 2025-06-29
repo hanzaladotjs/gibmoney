@@ -23,6 +23,9 @@ const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     const yourKey = authHeaders.split(" ")[1];
+    if (!process.env.JWT_SECRET) {
+        throw new Error("Hi");
+    }
     const authJWT = jsonwebtoken_1.default.verify(yourKey, process.env.JWT_SECRET);
     req.userId = authJWT.userId;
     next();

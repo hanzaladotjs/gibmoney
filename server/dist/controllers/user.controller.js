@@ -66,6 +66,9 @@ const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             balance: 1 + Math.random() * 1000,
         });
         const jwt1 = process.env.JWT_SECRET;
+        if (!jwt1) {
+            throw new Error("JWT_SECRET is not defined in environment variables.");
+        }
         const token = jsonwebtoken_1.default.sign({ userId: createe._id }, jwt1);
         res.json({
             message: "user created",
@@ -95,6 +98,9 @@ const SignIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.status(301).json({
                 message: "user doesnt exist",
             });
+        }
+        if (!process.env.JWT_SECRET) {
+            throw Error("HI");
         }
         const token = jsonwebtoken_1.default.sign({
             userId: user._id,

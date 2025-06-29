@@ -7,7 +7,7 @@ import { Send } from "../controllers/account.controller"
 const router = Router()
 
 router.get("/balance", authMiddleware, balance)
-router.put("/send/", authMiddleware, Send)
+router.put("/send", authMiddleware, Send)
 
 export default router
 

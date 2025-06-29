@@ -102,11 +102,15 @@ export const SignIn = async (req: Request, res: Response) => {
       });
     }
 
+    if(!process.env.JWT_SECRET){
+      throw Error("HI")
+    }
+
     const token = jwt.sign(
       {
         userId: user._id,
       },
-      process.env.JWT_SECRET as string
+      process.env.JWT_SECRET
     );
 
     res.json({

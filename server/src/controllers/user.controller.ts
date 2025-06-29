@@ -62,9 +62,13 @@ export const signUp = async (req: Request, res: Response): Promise<any> => {
       balance: 1 + Math.random() * 1000,
     });
 
-    const jwt1 = process.env.JWT_SECRET;
+    const jwt1 = process.env.JWT_SECRET ;
 
-    const token = jwt.sign({ userId: createe._id }, jwt1 as string);
+    if (!jwt1) {
+  throw new Error("JWT_SECRET is not defined in environment variables.");
+}
+
+    const token = jwt.sign({ userId: createe._id }, jwt1 );
 
     res.json({
       message: "user created",

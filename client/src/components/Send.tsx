@@ -136,6 +136,9 @@ const Send = () => {
 
 
   const fetchBalance = async () => {
+    if(!token){
+      throw new Error("lol")
+    }
     const response = await fetch(`${backend_Uri}/account/balance`, {
       method: "GET",
       headers: {

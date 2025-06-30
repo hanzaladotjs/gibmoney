@@ -97,7 +97,7 @@ export const EmojiConfetti: React.FC = () => {
         window.removeEventListener('resize', updateCanvasSize)
       }
     }
-  }, [isExploding])
+  }, [])
 
   const handleClick = () => {
     setIsExploding(true)
@@ -108,7 +108,7 @@ export const EmojiConfetti: React.FC = () => {
     <div className="relative">
       <motion.button
         ref={buttonRef}
-        className="text-md transform-gpu rounded-lg bg-red-500 px-6 py-2 font-semibold text-white"
+        className="text-md transform-gpu rounded-lg bg-black px-6 py-2 font-semibold text-black"
         whileTap={{ scale: 0.95 }}
         onClick={handleClick}
       >
@@ -128,17 +128,17 @@ export const EmojiConfetti: React.FC = () => {
 
 
 const Send = () => {
- const backend_Uri = import.meta.env.VITE_BACKEND_URI
- const token = localStorage.getItem("jwt")
+  const backend_Uri = import.meta.env.VITE_BACKEND_URI
+  const token = localStorage.getItem("jwt")
   const [balance, setBalance] = useState<any>(token ? "loading. please wait." : "please signin first")
   const [success, setSuccess] = useState<string>("pending/not initiated")
 
- 
 
-  const fetchBalance = async() => {
+
+  const fetchBalance = async () => {
     const response = await fetch(`${backend_Uri}/account/balance`, {
       method: "GET",
-      headers : {
+      headers: {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
       }
@@ -147,10 +147,10 @@ const Send = () => {
     setBalance(data.balance)
   }
 
-  useEffect( () => {
-  fetchBalance()
+  useEffect(() => {
+    fetchBalance()
   }
-  , [balance])
+    , [])
 
   type Money = {
     address: string,
@@ -158,10 +158,10 @@ const Send = () => {
   }
 
   const [money, setMoney] = useState<Money>({
-    address:"",
-    amount:""
+    address: "",
+    amount: ""
   })
- 
+
   type User = {
     username: string,
     email: string,
@@ -183,35 +183,31 @@ const Send = () => {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
 
-    
+
     e.preventDefault()
-if (!token) {
-      setSuccess("Error: No authentication token");
-      return;
-    }
    
-   const response = await fetch(`${backend_Uri}/account/send`, {
-    
+
+    const response = await fetch(`${backend_Uri}/account/send`, {
       method: "PUT",
       headers: {
-      "Content-Type" : "application/json",
-      "Authorization": `Bearer ${token}`
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(money)
-      
-      
+
+
 
     })
-const data = await response.json() 
-if (data.message=="success"){
-  setSuccess("Done")
-}
+    const data = await response.json()
+    if (data.message == "success") {
+      setSuccess("Done")
+    }
 
-setMoney({
-  address: "",
-  amount: 0
-})
-   }
+    setMoney({
+      address: "",
+      amount: 0
+    })
+  }
 
 
 
@@ -221,8 +217,8 @@ setMoney({
     , []
   )
 
-  function setAddress(id:string) {
-    setMoney((prev) => ({...prev, address: id }))
+  function setAddress(id: string) {
+    setMoney((prev) => ({ ...prev, address: id }))
   }
 
   return (
@@ -233,34 +229,32 @@ setMoney({
         <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center">
           <p className="mb-2 mr-14"> reciever's address: </p>
           <input
-          value={money.address}
-          onChange={(e) => setMoney((prev) => ({...prev, address: e.target.value}))}
+            value={money.address}
+            onChange={(e) => setMoney((prev) => ({ ...prev, address: e.target.value }))}
             type="text"
             className="h-8 w-60 mb-2  italic text-yellow-200 border-gray-600 border rounded-md"
             placeholder="type w care "
           />
           <p className="mb-2 mr-46"> amount: </p>
           <input
-          onChange={(e)=> setMoney((prev)=> ({...prev, amount: Number(e.target.value)}))}
+            onChange={(e) => setMoney((prev) => ({ ...prev, amount: e.target.value }))}
             value={money.amount}
-           
+
             placeholder=" amount"
             className="h-12 rounded-md w-61  mb-2  italic border text-xl text-orange-500 border-gray-600"
           />
           <div className="flex justify-center items-center">
-            <button  type="submit" className="px-5 mt-4 py-2  border italic rounded-lg">
+            <button type="submit" className="px-5 mt-4 py-2  border italic rounded-lg">
               {" "}
               send{" "}
             </button>
           </div>
 
-          <div className="text-center font-semibold text-green-400 mt-4 w-30">
-           
-
+         <div className="text-center font-semibold text-green-400 mt-4 w-30">
             Status : {success}
           </div>
-           { success == "Done" ?
-            <EmojiConfetti></EmojiConfetti> : null }
+          {success == "Done" ?
+            <EmojiConfetti></EmojiConfetti> : null} 
         </form>
       </div>
       <ul className="text-white mt-3">
@@ -269,7 +263,7 @@ setMoney({
             <div key={user._id} className="flex justify-between mx-1 items-center">
               <li>{user.username}
               </li>
-              <button type="submit" onClick={ () => setAddress(user._id)}>
+              <button type="submit" onClick={() => setAddress(user._id)}>
                 send
               </button>
             </div>

@@ -14,7 +14,7 @@ const Navbar = () => {
   }
   return (
     <div className="flex flex-col ">
-    <nav className="sticky flex md:justify-around  justify-between px-1 md:mx-0 text-gray-300 font-mono border-b bg-stone-700 opacity-50 py-4 border-gray-800">
+    <nav className="sticky flex md:justify-around  justify-between px-1 md:mx-0 text-gray-200 font-mono border-b bg-stone-800 opacity-40 py-4 border-gray-800">
       <div className="flex space-x-3 items-center">
         <svg
           width="20px"

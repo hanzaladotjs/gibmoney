@@ -12,7 +12,7 @@ function App() {
     <BrowserRouter>
    
       <Navbar/>
-      <div className='flex justify-center items-center md:min-h-180  min-h-150'>
+      <div className='flex justify-center items-center md:min-h-180 '>
         <Routes>
          
           <Route path='/' element={<Home/>}> </Route>

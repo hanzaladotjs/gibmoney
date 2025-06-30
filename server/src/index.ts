@@ -4,7 +4,10 @@ import mainRouter from "./routes/index";
 import cors from "cors"
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin:"https://gibmoney.hanzala.xyz",
+  credentials: true             
+}));
 
 app.use(express.json());
 

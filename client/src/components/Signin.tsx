@@ -30,7 +30,7 @@ const data = await response.json()
 
     const token = data.token 
 
-    await localStorage.setItem("jwt", token)
+   localStorage.setItem("jwt", token)
 
     setSignin({
       username: "",
@@ -42,7 +42,7 @@ const data = await response.json()
   }
   
     return (
-      <div className="flex flex-col justify-center items-center font-mono border border-gray-600 text-gray-400 bg-stone-900 hover:border-gray-500 md:py-25 py-16 px-10 md:px-25 mx-3 rounded-3xl">
+      <div className="flex flex-col justify-center items-center mt-20 md:mt-0  font-mono border border-gray-600 text-gray-300 bg-stone-900 opacity-50 hover:border-gray-500 md:py-25 py-16 px-8 md:px-25 mx-2 rounded-3xl">
         <h1 className="md:text-4xl text-2xl mb-10 text-center"> happy to see 
           <br></br>you back ser! </h1>
         <form onSubmit={handleSubmit} className="flex flex-col   space-y-4 justify-center">

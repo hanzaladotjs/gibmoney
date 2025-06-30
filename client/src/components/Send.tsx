@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 
 const Send = () => {
  const backend_Uri = import.meta.env.VITE_BACKEND_URI
+ const token = localStorage.getItem("jwt")
+  const [balance, setBalance] = useState<any>(token ? "loading. please wait." : "please signin first")
+  const [success, setSuccess] = useState<string>("pending/not initiated")
 
-  const [balance, setBalance] = useState<any>("loading............")
-  const [success, setSuccess] = useState<string>("pending /not initiated")
-
-  const token = localStorage.getItem("jwt")
+ 
 
   const fetchBalance = async() => {
     const response = await fetch(`${backend_Uri}/account/balance`, {
@@ -94,11 +94,11 @@ setMoney({
 
   return (
     <div>
-      <div className="flex flex-col mt-5 justify-center items-center font-mono text-gray-400 ml-1 border md:px-20 px-4 rounded-2xl py-20 bg-stone-900">
+      <div className="flex flex-col mt-5 justify-center items-center font-mono text-gray-300 ml-1 border md:px-20 px-3 rounded-2xl py-10 opacity-50 bg-stone-900">
         <h1 className="md:text-4xl text-xl font-bold mb-10"> send money </h1>
-        <h2 className="md:text-xl text-md  text-center mb-10"> avl balance: {balance} </h2>
+        <h2 className="md:text-xl text-md  text-center mb-10"> avl balance: <br></br>{balance} </h2>
         <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center">
-          <p className="mb-2 mr-14"> reciever's username: </p>
+          <p className="mb-2 mr-14"> reciever's address: </p>
           <input
           value={money.address}
           onChange={(e) => setMoney((prev) => ({...prev, address: e.target.value}))}
@@ -121,7 +121,7 @@ setMoney({
             </button>
           </div>
 
-          <div className="text-center mt-4">
+          <div className="text-center mt-4 w-30">
             Status : {success}
           </div>
         </form>

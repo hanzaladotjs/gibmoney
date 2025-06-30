@@ -53,7 +53,7 @@ const Signup = () => {
 
 
   return (
-    <div className="flex justify-center items-center font-mono flex-col border border-gray-600 text-gray-400 bg-stone-900 hover:border-gray-500 md:py-20 py-12 px-5 md:px-30 rounded-3xl">
+    <div className="flex justify-center items-center font-mono opacity-50 flex-col mt-20 md:mt-0 border border-gray-600 text-gray-300 bg-stone-900 hover:border-gray-500 md:py-20 py-12 px-5 mx-2 md:px-30 rounded-3xl">
       <h1 className="md:text-4xl text-lg mb-10"> welcome ser!</h1>
       <form className="flex flex-col space-y-4 items-center" onSubmit={handleSubmit}>
         <div className="space-y-1">
@@ -73,9 +73,9 @@ const Signup = () => {
         <div className="flex justify-center mt-2 ">
           <button type="submit" className="border border-gray-500 px-3 py-1 rounded-md hover:border-gray-300 ">signup</button>
         </div>
-        <div className="flex flex-row space-x-2">
-        <h2>already signed up? </h2>
-         <p className="underline text-stone-400"> <Link to="/signin">sign in here</Link></p>
+        <div className="flex flex-row space-x-1 md:space-x-2">
+          <h2 className="text-md">already signed up? </h2>
+          <p className="underline text-stone-400"> <Link to="/signin"> sign in here</Link></p>
       </div>
       </form>
     </div>

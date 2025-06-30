@@ -1,8 +1,20 @@
 // hi
+import { useState } from "react";
 import { Link } from "react-router-dom";
 const Navbar = () => {
+
+  const [menu, setMenu] = useState<boolean>(false)
+
+  function openMenu() {
+    if(!menu){
+      setMenu(true)
+    } else{
+      setMenu(false)
+    }
+  }
   return (
-    <nav className="sticky flex md:justify-around  justify-between md:mx-0 mx-3 text-gray-400 font-mono border-b py-4 border-gray-800">
+    <div className="flex flex-col ">
+    <nav className="sticky flex md:justify-around  justify-between px-1 md:mx-0 text-gray-300 font-mono border-b bg-stone-700 opacity-50 py-4 border-gray-800">
       <div className="flex space-x-3 items-center">
         <svg
           width="20px"
@@ -33,7 +45,8 @@ const Navbar = () => {
           <div className="hover:text-gray-500 hover:underline"> gibmoney</div>
         </Link>
       </div>
-      <div className="flex space-x-3 hidden md:flex ">
+    
+      <div className="flex space-x-3 md:flex hidden ">
         <Link to="/signup">
           <div className="hover:text-gray-500 hover:underline"> signup</div>
         </Link>
@@ -43,8 +56,11 @@ const Navbar = () => {
         <Link to="/send">
           <div className="hover:text-gray-500 hover:underline"> send</div>
         </Link>
-      </div>
-      <button className="md:hidden">
+      </div> 
+
+
+
+      <button onClick={openMenu} className="md:hidden">
         <svg
           width="24px"
           height="24px"
@@ -65,7 +81,25 @@ const Navbar = () => {
           ></path>
         </svg>
       </button>
+
+     
     </nav>
+     {menu ? <button onClick={() => {
+      setMenu(false)
+     }}>
+     <div className="flex flex-col  space-y-1 md:hidden italic my-0 items-end mr-1">
+        
+          <div className="text-gray-500 py-3 opacity-70 hover:bg-stone-600 hover:text-gray-900 border-b border-l w-25 text-center"><Link to="/signup" className="hover:bg-stone-600 "> <div>signup </div></Link></div>
+        
+       
+          <div className="text-gray-500  py-3 opacity-70  hover:bg-stone-600 hover:text-gray-900 border-b w-25 border-l text-center">  <Link to="/signin" className="hover:bg-stone-600"> <div>signin </div></Link></div>
+        
+       
+          <div className="text-gray-500  py-3 opacity-70  hover:bg-stone-600 hover:text-gray-900 border-b w-25 border-l text-center">  <Link to="/send" className="hover:bg-stone-600"> <div> send</div>  </Link></div>
+        
+      </div> </button>: null }
+      
+    </div>
   );
 };
 

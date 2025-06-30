@@ -2,7 +2,7 @@ import { Account } from "../models/account.model";
 import mongoose from "mongoose";
 
 interface transaction {
-    amount: Number,
+    amount: any,
     address: string
 }
 

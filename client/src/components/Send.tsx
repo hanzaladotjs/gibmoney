@@ -108,7 +108,7 @@ export const EmojiConfetti: React.FC = () => {
     <div className="relative">
       <motion.button
         ref={buttonRef}
-        className="text-md transform-gpu rounded-lg bg-black px-6 py-2 font-semibold text-black"
+        className="text-md transform-gpu rounded-lg px-6 py-2 font-semibold text-black"
         whileTap={{ scale: 0.95 }}
         onClick={handleClick}
       >
@@ -153,7 +153,7 @@ const Send = () => {
   useEffect(() => {
     fetchBalance()
   }
-    , [])
+    , [balance])
 
   type Money = {
     address: string,

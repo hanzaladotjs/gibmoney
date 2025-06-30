@@ -34,7 +34,7 @@ const Signup = () => {
 
       const token = await body.token
 
-      localStorage.setItem("jwt", token)
+      localStorage.setItem("jwt", token as string)
       setSignup({
         username: "",
         email: "",

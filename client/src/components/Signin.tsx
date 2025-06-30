@@ -30,7 +30,7 @@ const data = await response.json()
 
     const token = data.token 
 
-   localStorage.setItem("jwt", token)
+   localStorage.setItem("jwt", token as string)
 
     setSignin({
       username: "",

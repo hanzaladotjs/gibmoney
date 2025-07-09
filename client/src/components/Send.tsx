@@ -226,7 +226,7 @@ const Send = () => {
 
   return (
     <div>
-      <div className="flex flex-col mt-5 justify-center items-center font-mono text-gray-300 ml-1 border md:px-20 px-3 rounded-2xl py-10 opacity-50 bg-stone-900">
+      <div className="flex flex-col mt-5 justify-center items-center font-mono text-gray-300 ml-1 md:px-20 px-3 rounded-2xl py-10 opacity-50 ">
         <h1 className="md:text-4xl text-xl font-bold mb-10"> send money </h1>
         <h2 className="md:text-xl text-md  text-center mb-10"> avl balance: <br></br>{balance} </h2>
         <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center">
